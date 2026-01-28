@@ -1,138 +1,203 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
+type ToastType = "success" | "error";
+
 export default function AuthPage() {
+  const router = useRouter();
   const [isSignup, setIsSignup] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    wallet: "",
+  });
+
+  const showToast = (message: string, type: ToastType = "success") => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSignup = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!form.name || !form.email || !form.password) {
+      return showToast("All fields are required", "error");
+    }
+
+    localStorage.setItem(
+      "anchordex_user",
+      JSON.stringify({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        wallet: form.wallet,
+        createdAt: new Date().toISOString(),
+      })
+    );
+
+    showToast("Account created successfully 🎉");
+    setTimeout(() => router.push("/dashboard"), 1200);
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const savedUser = localStorage.getItem("anchordex_user");
+    if (!savedUser) {
+      return showToast("No account found. Please sign up.", "error");
+    }
+
+    const user = JSON.parse(savedUser);
+
+    if (user.email !== form.email || user.password !== form.password) {
+      return showToast("Invalid credentials", "error");
+    }
+
+    showToast("Welcome back 🚀");
+    setTimeout(() => router.push("/dashboard"), 1200);
+  };
 
   return (
-    <section className="min-h-screen bg-black text-white flex items-center justify-center relative overflow-hidden">
+    <section className="relative flex min-h-screen items-center justify-center bg-black text-white overflow-hidden">
 
-      {/* Background Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(45,212,191,0.12),_transparent_60%)]" />
+      {/* BACKGROUND */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(45,212,191,0.15),_transparent_60%)]" />
 
-      <div className="relative z-10 max-w-6xl w-full mx-auto grid md:grid-cols-2 gap-16 px-6 items-center">
+      {/* TOAST */}
+      {toast && (
+        <div
+          className={`fixed top-6 right-6 z-50 rounded-xl px-6 py-4 text-sm shadow-lg backdrop-blur
+          ${toast.type === "success"
+            ? "bg-teal-500/90 text-black"
+            : "bg-red-500/90 text-white"}`}
+        >
+          {toast.message}
+        </div>
+      )}
 
-        {/* LEFT VISUAL */}
+      <div className="relative z-10 grid w-full max-w-6xl grid-cols-1 gap-14 px-6 md:grid-cols-2 items-center">
+
+        {/* LEFT */}
         <div className="hidden md:flex justify-center relative">
-          <div className="absolute w-[420px] h-[420px] rounded-full bg-teal-500/20 blur-3xl" />
+          <div className="absolute h-[420px] w-[420px] rounded-full bg-teal-500/20 blur-3xl" />
           <Image
             src="/security-icon.png"
-            alt="AnchorDex Crypto Security"
-            width={360}
-            height={360}
-            priority
-            className="relative drop-shadow-[0_40px_80px_rgba(45,212,191,0.35)] animate-float"
+            alt="AnchorDex Security"
+            width={340}
+            height={340}
+            className="relative drop-shadow-[0_40px_80px_rgba(45,212,191,0.35)]"
           />
         </div>
 
-        {/* AUTH CARD */}
-        <div className="relative min-h-[600px] bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 flex flex-col justify-center">
+        {/* CARD */}
+        <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-10">
 
-          {/* Toggle */}
-          <div className="flex mb-10 bg-black/40 rounded-full p-1">
+          {/* TOGGLE */}
+          <div className="mb-10 flex rounded-full bg-black/40 p-1">
             <button
               onClick={() => setIsSignup(false)}
-              className={`w-1/2 py-2 rounded-full text-sm font-medium transition ${
-                !isSignup
-                  ? "bg-teal-400 text-black"
-                  : "text-gray-400 hover:text-white"
+              className={`w-1/2 rounded-full py-2 text-sm font-medium transition ${
+                !isSignup ? "bg-teal-400 text-black" : "text-gray-400"
               }`}
             >
               Login
             </button>
             <button
               onClick={() => setIsSignup(true)}
-              className={`w-1/2 py-2 rounded-full text-sm font-medium transition ${
-                isSignup
-                  ? "bg-teal-400 text-black"
-                  : "text-gray-400 hover:text-white"
+              className={`w-1/2 rounded-full py-2 text-sm font-medium transition ${
+                isSignup ? "bg-teal-400 text-black" : "text-gray-400"
               }`}
             >
               Sign Up
             </button>
           </div>
 
-          {/* Content */}
-          <div className="relative min-h-[420px]">
+          {/* LOGIN */}
+          {!isSignup && (
+            <form onSubmit={handleLogin} className="space-y-5">
+              <h2 className="text-3xl font-semibold">Welcome Back</h2>
+              <p className="text-gray-400">
+                Securely access your AnchorDex account.
+              </p>
 
-            {/* LOGIN */}
-            {!isSignup && (
-              <div className="animate-auth">
-                <h2 className="text-3xl font-semibold mb-2">
-                  Welcome Back
-                </h2>
-                <p className="text-gray-400 mb-8">
-                  Access your AnchorDex account securely.
-                </p>
+              <input
+                name="email"
+                type="email"
+                placeholder="Email address"
+                onChange={handleChange}
+                className="auth-input"
+              />
 
-                <form className="space-y-5">
-                  <input
-                    type="email"
-                    placeholder="Email address"
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-teal-400"
-                  />
+              <input
+                name="password"
+                type="password"
+                placeholder="Password"
+                onChange={handleChange}
+                className="auth-input"
+              />
 
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-teal-400"
-                  />
+              <button className="w-full rounded-xl bg-teal-400 py-3 font-semibold text-black hover:bg-teal-300">
+                Login
+              </button>
+            </form>
+          )}
 
-                  <button
-                    type="submit"
-                    className="w-full mt-4 bg-teal-400 text-black py-3 rounded-xl font-semibold hover:bg-teal-300 transition"
-                  >
-                    Login
-                  </button>
-                </form>
-              </div>
-            )}
+          {/* SIGNUP */}
+          {isSignup && (
+            <form onSubmit={handleSignup} className="space-y-5">
+              <h2 className="text-3xl font-semibold">Create Account</h2>
+              <p className="text-gray-400">
+                Trade securely with AnchorDex escrow.
+              </p>
 
-            {/* SIGN UP */}
-            {isSignup && (
-              <div className="animate-auth">
-                <h2 className="text-3xl font-semibold mb-2">
-                  Create Your Account
-                </h2>
-                <p className="text-gray-400 mb-8">
-                  Trade with confidence using AnchorDex escrow.
-                </p>
+              <input
+                name="name"
+                placeholder="Full name"
+                onChange={handleChange}
+                className="auth-input"
+              />
 
-                <form className="space-y-5">
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-teal-400"
-                  />
+              <input
+                name="email"
+                type="email"
+                placeholder="Email address"
+                onChange={handleChange}
+                className="auth-input"
+              />
 
-                  <input
-                    type="email"
-                    placeholder="Email address"
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-teal-400"
-                  />
+              <input
+                name="wallet"
+                placeholder="Wallet address (optional)"
+                onChange={handleChange}
+                className="auth-input"
+              />
 
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-teal-400"
-                  />
+              <input
+                name="password"
+                type="password"
+                placeholder="Password"
+                onChange={handleChange}
+                className="auth-input"
+              />
 
-                  <button
-                    type="submit"
-                    className="w-full mt-4 bg-teal-400 text-black py-3 rounded-xl font-semibold hover:bg-teal-300 transition"
-                  >
-                    Create Account
-                  </button>
-                </form>
-              </div>
-            )}
-          </div>
+              <button className="w-full rounded-xl bg-teal-400 py-3 font-semibold text-black hover:bg-teal-300">
+                Create Account
+              </button>
+            </form>
+          )}
 
-          {/* Trust Footer */}
-          <p className="text-xs text-gray-500 text-center mt-8">
-            Secured by AnchorDex escrow & industry-standard encryption.
+          <p className="mt-8 text-center text-xs text-gray-500">
+            Protected by AnchorDex escrow & encryption
           </p>
         </div>
       </div>

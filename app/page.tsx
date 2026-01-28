@@ -20,18 +20,22 @@ export default function Home() {
     <HowItWorks />
     <PerformanceMetrics />
     <CryptoMarketTable />
-    <main className="bg-gray-100 min-h-screen p-10">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <PortfolioCard />
-          <FollowingTable />
-        </div>
+    <main className="bg-gray-100 min-h-screen p-4 sm:p-6 md:p-10 overflow-x-hidden">
+  <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 lg:gap-8">
 
-        <div className="flex justify-center">
-          <MobileTradeCard />
-        </div>
-      </div>
-    </main>
+    {/* LEFT & CENTER: Portfolio + Following Table */}
+    <div className="flex-1 flex flex-col gap-6 w-full min-w-0">
+      <PortfolioCard />
+      <FollowingTable />
+    </div>
+
+    {/* RIGHT: Mobile Trade Card */}
+    <div className="flex justify-center lg:justify-end w-full lg:w-auto min-w-0">
+      <MobileTradeCard />
+    </div>
+  </div>
+</main>
+
     <FAQ />
     <TrustedPartners />
     <Footer />
