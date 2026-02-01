@@ -30,7 +30,9 @@ export default function DashboardActivity() {
     <div className="min-h-screen bg-[#0b0d1e] text-white p-6 md:ml-[260px]">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-        <h1 className="text-2xl font-semibold">Activity</h1>
+         <div className="text-center sm:text-left">
+          <h1 className="text-xl font-semibold mb-6">Activity</h1>
+        </div>
         <input
           type="text"
           placeholder="Search activity..."

@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   LayoutDashboard,
-  ShieldCheck,
+  Users,
   ArrowLeftRight,
-  LineChart,
-  Clock,
   Settings,
   Menu,
   X,
@@ -16,28 +14,26 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Deposit", href: "/deposit", icon: ShieldCheck },
-  { name: "Withdraw", href: "/dashboardwithdraw", icon: ArrowLeftRight },
-  { name: "Transactions", href: "/dashboardtransactions", icon: ArrowLeftRight },
-  { name: "Markets", href: "/dashboardmarket", icon: LineChart },
-  { name: "Activity", href: "/dashboardactivity", icon: Clock },
-  { name: "Settings", href: "/dashboardsettings", icon: Settings },
+  { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+  { name: "Users", href: "/admin/users", icon: Users },
+  { name: "Transactions", href: "/admin/transactions", icon: ArrowLeftRight },
+  { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
-export default function DashboardSidebar() {
-  const pathname = usePathname();
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
 
   const handleLogout = () => {
     setConfirmLogout(false);
-    router.push("/"); // redirect to homepage
+    // 🔒 Later: clear auth / token here
+    router.push("/adminauth"); // redirect to login
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-[#020617] text-white flex">
+
       {/* MOBILE TOGGLE */}
       <button
         onClick={() => setOpen(true)}
@@ -46,7 +42,7 @@ export default function DashboardSidebar() {
         <Menu size={22} />
       </button>
 
-      {/* OVERLAY (MOBILE) */}
+      {/* MOBILE OVERLAY */}
       {open && (
         <div
           onClick={() => setOpen(false)}
@@ -56,12 +52,12 @@ export default function DashboardSidebar() {
 
       {/* SIDEBAR */}
       <aside
-        className={`fixed left-0 top-0 z-50 h-screen w-[260px] border-r border-white/10 bg-[#020617] p-6 transition-transform duration-300
+        className={`fixed top-0 left-0 z-50 h-screen w-[260px] border-r border-white/10 bg-[#020617] p-6 transition-transform duration-300
         ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         {/* HEADER */}
         <div className="mb-10 flex items-center justify-between">
-          <Link href="/dashboard" className="flex items-center gap-2">
+          <Link href="/admin/dashboard" className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-400 text-black font-bold">
               A
             </div>
@@ -79,7 +75,7 @@ export default function DashboardSidebar() {
         {/* NAV */}
         <nav className="space-y-1">
           {navItems.map((item) => {
-            const active = pathname === item.href;
+            const active = router.pathname === item.href;
             const Icon = item.icon;
 
             return (
@@ -88,10 +84,9 @@ export default function DashboardSidebar() {
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition
-                  ${
-                    active
-                      ? "bg-teal-500/15 text-teal-400"
-                      : "text-slate-400 hover:bg-white/5 hover:text-white"
+                  ${active
+                    ? "bg-teal-500/15 text-teal-400"
+                    : "text-slate-400 hover:bg-white/5 hover:text-white"
                   }`}
               >
                 <Icon size={18} />
@@ -120,9 +115,12 @@ export default function DashboardSidebar() {
       {/* DESKTOP SPACER */}
       <div className="hidden md:block md:w-[260px]" />
 
+      {/* MAIN CONTENT */}
+      <main className="flex-1 p-6 md:pt-6">{children}</main>
+
       {/* LOGOUT CONFIRMATION MODAL */}
       {confirmLogout && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm">
           <div className="w-80 rounded-xl bg-[#0b0d1e] p-6 text-center text-white shadow-lg">
             <h2 className="mb-4 text-lg font-semibold">Confirm Logout</h2>
             <p className="mb-6">Are you sure you want to logout?</p>
@@ -143,6 +141,6 @@ export default function DashboardSidebar() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

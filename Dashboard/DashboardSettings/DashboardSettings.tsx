@@ -34,7 +34,9 @@ export default function DashboardSettings() {
 
   return (
     <div className="min-h-screen bg-[#0b0d1e] text-white p-6 md:ml-[260px]">
-      <h1 className="text-2xl font-semibold mb-6">Settings</h1>
+       <div className="text-center sm:text-left">
+          <h1 className="text-xl font-semibold mb-6">Settings</h1>
+        </div>
 
       {message && (
         <div className="mb-4 rounded-lg bg-teal-500/20 text-teal-400 p-3 text-sm">

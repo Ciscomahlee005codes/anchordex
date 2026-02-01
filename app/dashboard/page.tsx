@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { getUser, logout } from "@/lib/auth";
 import DashboardSidebar from "@/Dashboard/Sidebar/DashboardSidebar";
 import PortfolioChart from "@/Dashboard/Charts/PortfolioChart";
+import TotalAssetsCard from "@/Dashboard/TotalAssetsCard/TotalAssetsCard";
+import { Plus } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -14,95 +16,119 @@ export default function DashboardPage() {
     router.push("/auth");
   };
 
-  return (
-    <div className="min-h-screen bg-[#020617] text-white">
+  function getGreeting() {
+  const hour = new Date().getHours();
 
-      {/* SIDEBAR */}
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
+}
+
+
+  return (
+    <div className="min-h-screen bg-[#020617] text-white overflow-x-hidden">
       <DashboardSidebar />
 
-      {/* MAIN CONTENT */}
-      <main className="relative ml-0 md:ml-[260px] px-4 sm:px-6 py-6 transition-all">
+      <main className="ml-0 md:ml-[260px] px-4 sm:px-6 py-6">
 
         {/* TOP BAR */}
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+<div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-          <div>
-            <h1 className="text-2xl md:text-3xl font-semibold">
-              Welcome back, {user?.name} 👋
-            </h1>
-            <p className="text-sm text-slate-400">
-              Here’s an overview of your AnchorDex activity
+  {/* LEFT — TITLE + GREETING */}
+  <div className="text-center sm:text-left">
+    <h1 className="text-xl font-semibold text-white/90">
+      Dashboard
+    </h1>
+
+    <p className="text-m text-slate-400 mt-1">
+      {getGreeting()}, {user?.name} 👋
+    </p>
+  </div>
+
+  {/* RIGHT — ACTIONS */}
+  <div className="flex items-center gap-3 flex-wrap">
+    <button className="rounded-xl bg-teal-500 px-4 py-2 text-sm font-medium text-black hover:bg-teal-400 transition flex items-center gap-2">
+      <Plus className="h-4 w-4" />
+      New trade
+    </button>
+
+    <button className="text-sm text-slate-300 hover:text-white">
+      Active Trades
+    </button>
+
+    <button className="text-sm text-slate-300 hover:text-white">
+      Wallets
+    </button>
+
+    <button
+      onClick={handleLogout}
+      className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300 hover:bg-white/5"
+    >
+      Logout
+    </button>
+  </div>
+</div>
+
+
+        {/* STATS */}
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-10">
+
+          <TotalAssetsCard />
+
+          <div className="rounded-2xl bg-[#0b1220] border border-white/10 p-5">
+            <p className="text-xs text-slate-400 mb-1">
+              Active trades
             </p>
+            <h3 className="text-xl font-semibold">0</h3>
+            <p className="text-xs text-slate-500 mt-1">Trades</p>
           </div>
 
-          <button
-            onClick={handleLogout}
-            className="self-start sm:self-auto rounded-full border border-white/10 px-5 py-2 text-sm text-white/80 hover:bg-white/5 transition"
-          >
-            Logout
-          </button>
-        </div>
+          <div className="rounded-2xl bg-[#0b1220] border border-white/10 p-5">
+            <p className="text-xs text-slate-400 mb-1">
+              Completed
+            </p>
+            <h3 className="text-xl font-semibold">0</h3>
+            <p className="text-xs text-slate-500 mt-1">Trades</p>
+          </div>
 
-        {/* STATS GRID */}
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-          {[
-            { label: "Portfolio Value", value: "$1,856.84" },
-            { label: "Active Escrows", value: "3" },
-            { label: "Completed Trades", value: "18" },
-            { label: "Wallet Balance", value: "$642.30" },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl"
-            >
-              <p className="text-xs uppercase tracking-wide text-slate-400">
-                {item.label}
-              </p>
-              <h3 className="mt-2 text-2xl font-semibold">
-                {item.value}
-              </h3>
-            </div>
-          ))}
         </section>
 
-        {/* MAIN GRID */}
-        <section className="grid gap-6 lg:grid-cols-3">
+        {/* LOWER GRID */}
+        <section className="grid gap-6 lg:grid-cols-2">
 
-          {/* LEFT (ACTIVITY / CHART PLACEHOLDER) */}
-          <div className="lg:col-span-2 rounded-2xl border border-white/10 bg-white/5 p-6">
-            <h3 className="mb-4 text-lg font-semibold">
-              Portfolio Performance
+          {/* YOUR TRADES */}
+          <div className="rounded-2xl bg-[#0b1220] border border-white/10 p-6 min-h-[260px] flex flex-col">
+            <h3 className="text-sm font-medium mb-6">
+              Your Trades
             </h3>
 
-            <div className="rounded-xl bg-black/40 p-4">
-        <PortfolioChart />
-   </div>
-
-          </div>
-
-          {/* RIGHT (QUICK ACTIONS) */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <h3 className="mb-4 text-lg font-semibold">
-              Quick Actions
-            </h3>
-
-            <div className="flex flex-col gap-3">
-              {[
-                "Start New Escrow",
-                "Deposit Funds",
-                "Withdraw Funds",
-                "View Transactions",
-              ].map((action) => (
-                <button
-                  key={action}
-                  className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white/80 hover:bg-white/10 transition"
-                >
-                  {action}
-                </button>
-              ))}
+            <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
+              No available data
             </div>
           </div>
 
+          {/* RECENT TRANSACTIONS */}
+          <div className="rounded-2xl bg-[#0b1220] border border-white/10 p-6 min-h-[260px] flex flex-col">
+            <h3 className="text-sm font-medium mb-6">
+              Recent Transactions
+            </h3>
+
+            <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
+              No available data
+            </div>
+          </div>
+
+        </section>
+
+        {/* PORTFOLIO CHART */}
+        <section className="mt-10 rounded-2xl bg-[#0b1220] border border-white/10 p-6">
+          <h3 className="mb-4 text-sm font-medium">
+            Portfolio performance
+          </h3>
+
+          <div className="rounded-xl bg-black/40 p-4">
+            <PortfolioChart />
+          </div>
         </section>
 
       </main>
