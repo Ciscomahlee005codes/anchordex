@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getAdmin } from "@/lib/adminAuth";
 
@@ -20,33 +20,38 @@ const navItems = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
   { name: "Users", href: "/admin/users", icon: Users },
   { name: "Transactions", href: "/admin/transactions", icon: ArrowLeftRight },
-   { name: "Notifications", href: "/admin/notifications", icon: Bell },
+  { name: "Notifications", href: "/admin/notifications", icon: Bell },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const router = useRouter();
+  const pathname = usePathname(); // ✅ FIXED
   const [open, setOpen] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
 
-
-useEffect(() => {
-  const admin = getAdmin();
-  if (!admin) {
-    router.push("/admin/auth");
-  }
-}, [router]);
-
+  useEffect(() => {
+    const admin = getAdmin();
+    if (!admin) {
+      router.replace("/admin/auth"); // safer than push
+    }
+  }, [router]);
 
   const handleLogout = () => {
     setConfirmLogout(false);
-    // 🔒 Later: clear auth / token here
-    router.push("/adminauth"); // redirect to login
+
+    // 🔒 clear admin session here if needed
+    localStorage.removeItem("admin");
+
+    router.replace("/admin/auth"); // ✅ fixed route
   };
 
   return (
     <div className="min-h-screen bg-[#020617] text-white flex">
-
       {/* MOBILE TOGGLE */}
       <button
         onClick={() => setOpen(true)}
@@ -74,7 +79,9 @@ useEffect(() => {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-400 text-black font-bold">
               A
             </div>
-            <span className="text-lg font-semibold text-white">AnchorDex</span>
+            <span className="text-lg font-semibold text-white">
+              AnchorDex
+            </span>
           </Link>
 
           <button
@@ -85,10 +92,10 @@ useEffect(() => {
           </button>
         </div>
 
-        {/* NAV */}
+        {/* NAVIGATION */}
         <nav className="space-y-1">
           {navItems.map((item) => {
-            const active = router.pathname === item.href;
+            const active = pathname === item.href; // ✅ FIXED
             const Icon = item.icon;
 
             return (
@@ -97,9 +104,10 @@ useEffect(() => {
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition
-                  ${active
-                    ? "bg-teal-500/15 text-teal-400"
-                    : "text-slate-400 hover:bg-white/5 hover:text-white"
+                  ${
+                    active
+                      ? "bg-teal-500/15 text-teal-400"
+                      : "text-slate-400 hover:bg-white/5 hover:text-white"
                   }`}
               >
                 <Icon size={18} />
@@ -109,7 +117,7 @@ useEffect(() => {
           })}
         </nav>
 
-        {/* LOGOUT BUTTON */}
+        {/* LOGOUT */}
         <button
           onClick={() => setConfirmLogout(true)}
           className="mt-6 flex w-full items-center gap-3 rounded-xl bg-red-600/20 px-4 py-3 text-sm text-red-400 hover:bg-red-600/30 hover:text-white transition"
@@ -131,12 +139,13 @@ useEffect(() => {
       {/* MAIN CONTENT */}
       <main className="flex-1 p-6 md:pt-6">{children}</main>
 
-      {/* LOGOUT CONFIRMATION MODAL */}
+      {/* LOGOUT MODAL */}
       {confirmLogout && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm">
           <div className="w-80 rounded-xl bg-[#0b0d1e] p-6 text-center text-white shadow-lg">
             <h2 className="mb-4 text-lg font-semibold">Confirm Logout</h2>
             <p className="mb-6">Are you sure you want to logout?</p>
+
             <div className="flex justify-center gap-4">
               <button
                 onClick={() => setConfirmLogout(false)}
@@ -144,6 +153,7 @@ useEffect(() => {
               >
                 No
               </button>
+
               <button
                 onClick={handleLogout}
                 className="flex-1 rounded-lg bg-red-600 py-2 hover:bg-red-700 transition"
