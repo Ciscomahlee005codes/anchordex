@@ -1,3 +1,4 @@
+// User Authentication Storage 
 export const getUser = () => {
   if (typeof window === "undefined") return null;
 

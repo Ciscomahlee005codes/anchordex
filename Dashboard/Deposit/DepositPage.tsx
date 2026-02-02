@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardSidebar from "@/Dashboard/Sidebar/DashboardSidebar";
 import { ChevronDown, Info } from "lucide-react";
+import { getCurrentUser, User } from "@/lib/storage";
 
 const coins = [
   { symbol: "BTC", name: "Bitcoin" },
@@ -16,6 +17,16 @@ export default function DepositPage() {
   const [selectedCoin, setSelectedCoin] = useState<string | null>(null);
   const [amount, setAmount] = useState("");
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const currentUser = getCurrentUser();
+    setUser(currentUser);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <div className="min-h-screen bg-[#020617] text-white overflow-x-hidden">
@@ -23,15 +34,13 @@ export default function DepositPage() {
 
       <main className="ml-0 md:ml-[260px] px-4 sm:px-6 py-6">
 
-        {/* HEADER */}
         <div className="text-center sm:text-left">
           <h1 className="text-xl font-semibold mb-6">Deposit</h1>
         </div>
-        
 
         <div className="grid gap-6 lg:grid-cols-3">
 
-          {/* LEFT — FORM */}
+          {/* LEFT SIDE */}
           <div className="lg:col-span-2 rounded-2xl bg-[#0b1220] border border-white/10 p-6 space-y-8">
 
             {/* STEP 1 */}
@@ -103,7 +112,6 @@ export default function DepositPage() {
                 <div className="flex items-start gap-2 text-xs text-slate-400">
                   <Info className="h-4 w-4 mt-0.5 text-teal-400" />
                   Only deposit to addresses generated on our server.
-                  Sending funds to third-party addresses may result in loss.
                 </div>
 
                 <button
@@ -112,18 +120,11 @@ export default function DepositPage() {
                 >
                   Generate deposit address
                 </button>
-
-                <p className="text-xs text-slate-400">
-                  Cryptocurrency not listed?{" "}
-                  <span className="text-teal-400 hover:underline cursor-pointer">
-                    Request currency listing
-                  </span>
-                </p>
               </div>
             </div>
           </div>
 
-          {/* RIGHT — AVAILABLE ASSET */}
+          {/* RIGHT SIDE — REAL BALANCE */}
           <div className="rounded-2xl bg-[#0b1220] border border-white/10 p-6 h-fit">
             <div className="flex items-center gap-3 mb-3">
               <div className="h-10 w-10 rounded-xl bg-yellow-400/20 flex items-center justify-center">
@@ -140,7 +141,7 @@ export default function DepositPage() {
             </div>
 
             <p className="text-xl font-semibold mt-2">
-              0 {selectedCoin ?? "BTC"}
+              {user?.balance?.toFixed(4) ?? "0.0000"} {selectedCoin ?? "BTC"}
             </p>
           </div>
 
@@ -150,7 +151,6 @@ export default function DepositPage() {
   );
 }
 
-/* STEP CIRCLE */
 function StepNumber({ number }: { number: string }) {
   return (
     <div className="h-7 w-7 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center text-xs font-semibold">

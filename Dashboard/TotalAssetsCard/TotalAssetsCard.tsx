@@ -2,24 +2,33 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, ArrowRight } from "lucide-react";
+import { getCurrentUser} from "@/lib/storage";
 
-const assets = [
-  { symbol: "BTC", name: "Bitcoin", balance: "0.0000", icon: "🟠" },
-  { symbol: "USDT", name: "USDT (TRC20)", balance: "0.0000", icon: "🟢" },
-  { symbol: "eUSDe", name: "eUSDe", balance: "0.0000", icon: "⚪" },
-  { symbol: "BNB", name: "BNB", balance: "0.0000", icon: "🟡" },
-  { symbol: "USDC", name: "USDC", balance: "0.0000", icon: "🔵" },
-  { symbol: "LUIGI", name: "LUIGI", balance: "0.0000", icon: "🟣" },
-  { symbol: "BELT", name: "BELT", balance: "0.0000", icon: "🟠" },
-  { symbol: "Pump", name: "Pump", balance: "0.0000", icon: "🟩" },
+const assetsList = [
+  { symbol: "BTC", name: "Bitcoin", icon: "🟠" },
+  { symbol: "USDT", name: "USDT (TRC20)", icon: "🟢" },
+  { symbol: "eUSDe", name: "eUSDe", icon: "⚪" },
+  { symbol: "BNB", name: "BNB", icon: "🟡" },
+  { symbol: "USDC", name: "USDC", icon: "🔵" },
+  { symbol: "LUIGI", name: "LUIGI", icon: "🟣" },
+  { symbol: "BELT", name: "BELT", icon: "🟠" },
+  { symbol: "Pump", name: "Pump", icon: "🟩" },
 ];
 
 export default function TotalAssetsCard() {
+  const user = getCurrentUser(); // ✅ FIX
+  const balance = user?.balance ?? 0;
+
+  const assets = assetsList.map((a) => ({
+    ...a,
+    balance: a.symbol === "BTC" ? balance.toFixed(4) : "0.0000",
+  }));
+
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(assets[0]);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Close on outside click
+  /* CLOSE DROPDOWN ON OUTSIDE CLICK */
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -31,25 +40,33 @@ export default function TotalAssetsCard() {
   }, []);
 
   return (
-    <div ref={ref} className="relative rounded-2xl bg-[#0b1220] border border-white/10 p-5">
+    <div
+      ref={ref}
+      className="relative rounded-2xl bg-[#0b1220] border border-white/10 p-5"
+    >
       <p className="text-xs text-slate-400 mb-3">
         Est. Total Assets
       </p>
 
+      <h3 className="text-xl font-semibold mb-4">
+        {balance.toFixed(4)} BTC
+      </h3>
+
       {/* SELECTED ASSET */}
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center gap-3">
         <button
           onClick={() => setOpen(!open)}
-          className="flex items-center gap-3 rounded-xl bg-black/40 px-4 py-3 flex-1 hover:bg-black/60 transition"
+          className="flex flex-1 items-center gap-3 rounded-xl bg-black/40 px-4 py-3 hover:bg-black/60 transition"
         >
-          <span className="text-sm">{selected.icon}</span>
+          <span>{selected.icon}</span>
+
           <span className="text-sm font-medium">
             {selected.balance} {selected.symbol}
           </span>
+
           <ChevronDown className="ml-auto h-4 w-4 text-slate-400" />
         </button>
 
-        {/* ARROW BUTTON */}
         <button className="flex h-11 w-11 items-center justify-center rounded-xl bg-black/40 hover:bg-black/60 transition">
           <ArrowRight className="h-4 w-4 text-slate-300" />
         </button>
@@ -57,7 +74,7 @@ export default function TotalAssetsCard() {
 
       {/* DROPDOWN */}
       {open && (
-        <div className="absolute left-5 right-5 top-[115px] z-30 rounded-xl bg-[#0b1220] border border-white/10 shadow-2xl">
+        <div className="absolute left-5 right-5 top-[120px] z-30 rounded-xl bg-[#0b1220] border border-white/10 shadow-2xl">
           <div className="max-h-[260px] overflow-y-auto">
             {assets.map((asset) => (
               <button

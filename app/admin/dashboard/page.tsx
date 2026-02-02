@@ -1,18 +1,30 @@
+"use client";
 import AdminLayout from "../../AdminLayout";
 import {
   Users,
   ArrowLeftRight,
   Wallet,
 } from "lucide-react";
+import {useEffect, useState,  } from "react";
+import { getAdmin } from "@/lib/adminAuth";
 
 export default function AdminDashboard() {
+  const [adminName, setAdminName] = useState("Admin");
+  
+  useEffect(() => {
+    const admin = getAdmin();
+    if (admin?.name) {
+      setAdminName(admin.name);
+    }
+  }, []);
+
   return (
     <AdminLayout>
 
       {/* HEADER */}
       <div className="mb-8 text-center sm:text-left">
         <h1 className="text-2xl font-semibold">
-          Admin Dashboard
+          Hello, {adminName} 👋
         </h1>
         <p className="text-sm text-slate-400 mt-1">
           Overview of platform activity and system stats

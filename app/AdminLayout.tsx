@@ -2,12 +2,15 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getAdmin } from "@/lib/adminAuth";
+
 import {
   LayoutDashboard,
   Users,
   ArrowLeftRight,
   Settings,
+  Bell,
   Menu,
   X,
   LogOut,
@@ -17,6 +20,7 @@ const navItems = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
   { name: "Users", href: "/admin/users", icon: Users },
   { name: "Transactions", href: "/admin/transactions", icon: ArrowLeftRight },
+   { name: "Notifications", href: "/admin/notifications", icon: Bell },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
@@ -24,6 +28,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
+
+
+useEffect(() => {
+  const admin = getAdmin();
+  if (!admin) {
+    router.push("/admin/auth");
+  }
+}, [router]);
+
 
   const handleLogout = () => {
     setConfirmLogout(false);

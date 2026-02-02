@@ -2,6 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  registerUser,
+  getUsers,
+  setCurrentUser,
+  User,
+} from "@/lib/storage";
 import Image from "next/image";
 
 type ToastType = "success" | "error";
@@ -15,7 +21,6 @@ export default function AuthPage() {
     name: "",
     email: "",
     password: "",
-    wallet: "",
   });
 
   const showToast = (message: string, type: ToastType = "success") => {
@@ -27,6 +32,8 @@ export default function AuthPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  /* ================= SIGNUP ================= */
+
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -34,46 +41,43 @@ export default function AuthPage() {
       return showToast("All fields are required", "error");
     }
 
-    localStorage.setItem(
-      "anchordex_user",
-      JSON.stringify({
-        name: form.name,
-        email: form.email,
-        password: form.password,
-        wallet: form.wallet,
-        createdAt: new Date().toISOString(),
-      })
-    );
+    const newUser = registerUser(form.name, form.email);
 
     showToast("Account created successfully 🎉");
-    setTimeout(() => router.push("/dashboard"), 1200);
+
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 1000);
   };
+
+  /* ================= LOGIN ================= */
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const savedUser = localStorage.getItem("anchordex_user");
-    if (!savedUser) {
+    const users = getUsers();
+
+    const existingUser = users.find(
+      (u) => u.email === form.email
+    );
+
+    if (!existingUser) {
       return showToast("No account found. Please sign up.", "error");
     }
 
-    const user = JSON.parse(savedUser);
-
-    if (user.email !== form.email || user.password !== form.password) {
-      return showToast("Invalid credentials", "error");
-    }
+    setCurrentUser(existingUser);
 
     showToast("Welcome back 🚀");
-    setTimeout(() => router.push("/dashboard"), 1200);
+
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 1000);
   };
 
   return (
     <section className="relative flex min-h-screen items-center justify-center bg-black text-white overflow-hidden">
-
-      {/* BACKGROUND */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(45,212,191,0.15),_transparent_60%)]" />
 
-      {/* TOAST */}
       {toast && (
         <div
           className={`fixed top-6 right-6 z-50 rounded-xl px-6 py-4 text-sm shadow-lg backdrop-blur
@@ -87,7 +91,6 @@ export default function AuthPage() {
 
       <div className="relative z-10 grid w-full max-w-6xl grid-cols-1 gap-14 px-6 md:grid-cols-2 items-center">
 
-        {/* LEFT */}
         <div className="hidden md:flex justify-center relative">
           <div className="absolute h-[420px] w-[420px] rounded-full bg-teal-500/20 blur-3xl" />
           <Image
@@ -99,10 +102,8 @@ export default function AuthPage() {
           />
         </div>
 
-        {/* CARD */}
         <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-10">
 
-          {/* TOGGLE */}
           <div className="mb-10 flex rounded-full bg-black/40 p-1">
             <button
               onClick={() => setIsSignup(false)}
@@ -122,13 +123,9 @@ export default function AuthPage() {
             </button>
           </div>
 
-          {/* LOGIN */}
           {!isSignup && (
             <form onSubmit={handleLogin} className="space-y-5">
               <h2 className="text-3xl font-semibold">Welcome Back</h2>
-              <p className="text-gray-400">
-                Securely access your AnchorDex account.
-              </p>
 
               <input
                 name="email"
@@ -152,13 +149,9 @@ export default function AuthPage() {
             </form>
           )}
 
-          {/* SIGNUP */}
           {isSignup && (
             <form onSubmit={handleSignup} className="space-y-5">
               <h2 className="text-3xl font-semibold">Create Account</h2>
-              <p className="text-gray-400">
-                Trade securely with AnchorDex escrow.
-              </p>
 
               <input
                 name="name"
@@ -176,13 +169,6 @@ export default function AuthPage() {
               />
 
               <input
-                name="wallet"
-                placeholder="Wallet address (optional)"
-                onChange={handleChange}
-                className="auth-input"
-              />
-
-              <input
                 name="password"
                 type="password"
                 placeholder="Password"
@@ -195,10 +181,6 @@ export default function AuthPage() {
               </button>
             </form>
           )}
-
-          <p className="mt-8 text-center text-xs text-gray-500">
-            Protected by AnchorDex escrow & encryption
-          </p>
         </div>
       </div>
     </section>
