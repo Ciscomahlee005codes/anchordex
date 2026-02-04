@@ -47,26 +47,36 @@ export default function DashboardPage() {
 
   {/* RIGHT — ACTIONS */}
   <div className="flex items-center gap-3 flex-wrap">
-    <button className="rounded-xl bg-teal-500 px-4 py-2 text-sm font-medium text-black hover:bg-teal-400 transition flex items-center gap-2">
-      <Plus className="h-4 w-4" />
-      New trade
-    </button>
+  <button
+    onClick={() => router.push("/create-trade")}
+    className="rounded-xl bg-teal-500 px-4 py-2 text-sm font-medium text-black hover:bg-teal-400 transition flex items-center gap-2 cursor-pointer"
+  >
+    <Plus className="h-4 w-4" />
+    New trade
+  </button>
 
-    <button className="text-sm text-slate-300 hover:text-white">
-      Active Trades
-    </button>
+  <button
+    onClick={() => router.push("/active-trades")}
+    className="text-sm text-slate-300 hover:text-white cursor-pointer"
+  >
+    Active Trades
+  </button>
 
-    <button className="text-sm text-slate-300 hover:text-white">
-      Wallets
-    </button>
+  <button
+    onClick={() => router.push("/wallets")}
+    className="text-sm text-slate-300 hover:text-white cursor-pointer"
+  >
+    Wallets
+  </button>
 
-    <button
-      onClick={handleLogout}
-      className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300 hover:bg-white/5"
-    >
-      Logout
-    </button>
-  </div>
+  <button
+    onClick={handleLogout}
+    className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300 hover:bg-white/5 cursor-pointer"
+  >
+    Logout
+  </button>
+</div>
+
 </div>
 
 
