@@ -32,58 +32,30 @@ export default function CreateTradePage() {
     setConfirmOpen(true);
   }
 
-  function saveTrade() {
-    const newTrade = {
-      id: `trade_${nanoid(6)}`,
+  function confirmTrade() {
+    const trade = {
+      id: `trade_${nanoid(8)}`,
+      createdAt: new Date().toISOString(),
+      senderAsset: sendAsset.symbol,
+      receiverAsset: receiveAsset.symbol,
       role,
-      sendAsset: sendAsset.symbol,
-      sendAmount,
-      receiveAsset: receiveAsset.symbol,
-      receiveAmount: receiveAmount || "—",
       sellerEmail,
       buyerEmail,
       feePayer,
       status: "active",
-      createdAt: new Date().toISOString(),
     };
 
-    const existing =
-      JSON.parse(localStorage.getItem("trades") || "[]");
+    saveTrade(trade); // ✅ CORRECT USAGE
 
-    localStorage.setItem(
-      "trades",
-      JSON.stringify([newTrade, ...existing])
-    );
+    setConfirmOpen(false);
+    setReceiptOpen(true);
   }
-
-  function confirmTrade() {
-  const trade = {
-    id: nanoid(),
-    createdAt: new Date().toISOString(),
-    senderAsset: sendAsset.symbol,
-    receiverAsset: receiveAsset.symbol,
-    senderAmount: sendAmount,
-    receiverAmount: receiveAmount || "0",
-    role,
-    sellerEmail,
-    buyerEmail,
-    feePayer,
-    status: "active",
-  };
-
-  saveTrade(trade);
-
-  setConfirmOpen(false);
-  setReceiptOpen(true);
-}
-
 
   return (
     <div className="min-h-screen bg-[#020617] text-white">
       <DashboardSidebar />
 
       <main className="ml-0 md:ml-[260px] px-4 sm:px-6 py-8">
-        {/* HEADER */}
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-semibold">Start Trade</h1>
           <p className="text-sm text-slate-400 mt-1">
@@ -113,13 +85,12 @@ export default function CreateTradePage() {
             onChange={setReceiveAsset}
           />
 
-          {/* ROLE */}
           <div>
             <p className="text-sm mb-2">Select role type</p>
             <div className="flex rounded-xl overflow-hidden border border-white/10">
               <button
                 onClick={() => setRole("seller")}
-                className={`flex-1 py-2 text-sm font-medium ${
+                className={`flex-1 py-2 ${
                   role === "seller"
                     ? "bg-red-500 text-white"
                     : "bg-black/40 text-slate-400"
@@ -130,7 +101,7 @@ export default function CreateTradePage() {
 
               <button
                 onClick={() => setRole("buyer")}
-                className={`flex-1 py-2 text-sm font-medium ${
+                className={`flex-1 py-2 ${
                   role === "buyer"
                     ? "bg-green-500 text-black"
                     : "bg-black/40 text-slate-400"
@@ -141,7 +112,6 @@ export default function CreateTradePage() {
             </div>
           </div>
 
-          {/* EMAILS */}
           <div className="grid sm:grid-cols-2 gap-4">
             <input
               value={sellerEmail}
@@ -157,77 +127,57 @@ export default function CreateTradePage() {
             />
           </div>
 
-          {/* FEES */}
-          <div className="rounded-xl bg-black/40 border border-white/10 p-4 space-y-3">
+          <div className="rounded-xl bg-black/40 border border-white/10 p-4">
             <p className="text-sm">Who pays trade fee?</p>
             <select
               value={feePayer}
               onChange={(e) => setFeePayer(e.target.value)}
-              className="input"
+              className="input mt-2"
             >
               <option value="split">Split</option>
               <option value="seller">Seller</option>
               <option value="buyer">Buyer</option>
             </select>
 
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-slate-400 mt-2">
               Exchange fee: <span className="text-white">5%</span>
             </p>
           </div>
 
           <button
             onClick={startTrade}
-            className="w-full rounded-xl bg-teal-500 hover:bg-teal-400 transition py-3 text-sm font-medium text-black"
+            className="w-full rounded-xl bg-teal-500 py-3 text-black font-medium"
           >
             Start Trade
           </button>
         </div>
       </main>
 
-      {/* CONFIRM MODAL */}
       {confirmOpen && (
         <Modal onClose={() => setConfirmOpen(false)}>
-          <h2 className="text-lg font-semibold mb-3">Confirm Trade</h2>
-          <p className="text-sm text-slate-400 mb-6">
-            You are about to start an escrow trade.
-          </p>
-
+          <h2 className="text-lg font-semibold mb-4">Confirm Trade</h2>
           <button
-  onClick={confirmTrade}
-  className="w-full rounded-lg bg-teal-500 py-2 text-black font-medium"
->
-  Continue
-</button>
-
+            onClick={confirmTrade}
+            className="w-full rounded-lg bg-teal-500 py-2 text-black font-medium"
+          >
+            Continue
+          </button>
         </Modal>
       )}
 
-      {/* RECEIPT */}
       {receiptOpen && (
         <Modal onClose={() => setReceiptOpen(false)}>
-          <h2 className="text-lg font-semibold mb-4">Trade Receipt</h2>
-
-          <ul className="text-sm text-slate-300 space-y-2">
-            <li>Status: Active</li>
-            <li>Role: {role.toUpperCase()}</li>
-            <li>Sent: {sendAmount} {sendAsset.symbol}</li>
-            <li>Receive: {receiveAmount || "—"} {receiveAsset.symbol}</li>
-            <li>Fee payer: {feePayer}</li>
-          </ul>
-
-          <button
-            onClick={() => setReceiptOpen(false)}
-            className="mt-6 w-full rounded-lg border border-white/10 py-2"
-          >
-            Close
-          </button>
+          <h2 className="text-lg font-semibold mb-4">Trade Created 🎉</h2>
+          <p className="text-sm text-slate-400">
+            Your trade has been successfully created and is now active.
+          </p>
         </Modal>
       )}
     </div>
   );
 }
 
-/* ---------- COMPONENTS ---------- */
+/* ---------- HELPERS ---------- */
 
 function AssetBox({ label, asset, amount, onAmount, onChange }: any) {
   const [open, setOpen] = useState(false);
@@ -235,14 +185,10 @@ function AssetBox({ label, asset, amount, onAmount, onChange }: any) {
   return (
     <div>
       <p className="text-sm mb-2">{label}</p>
-
       <div className="flex items-center gap-3 rounded-xl bg-black/40 border border-white/10 px-4 py-3">
-        <button
-          onClick={() => setOpen(!open)}
-          className="flex items-center gap-2 text-sm"
-        >
+        <button onClick={() => setOpen(!open)} className="flex items-center gap-2">
           {asset.icon} {asset.symbol}
-          <ChevronDown className="h-4 w-4 text-slate-400" />
+          <ChevronDown size={14} />
         </button>
 
         <input
@@ -262,7 +208,7 @@ function AssetBox({ label, asset, amount, onAmount, onChange }: any) {
                 onChange(a);
                 setOpen(false);
               }}
-              className="w-full px-4 py-2 text-left text-sm hover:bg-white/5"
+              className="w-full px-4 py-2 text-left hover:bg-white/5"
             >
               {a.icon} {a.symbol}
             </button>
@@ -275,12 +221,9 @@ function AssetBox({ label, asset, amount, onAmount, onChange }: any) {
 
 function Modal({ children, onClose }: any) {
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-      <div className="w-full max-w-md rounded-2xl bg-[#0b1220] border border-white/10 p-6 relative">
-        <button
-          onClick={onClose}
-          className="absolute right-4 top-4 text-slate-400 hover:text-white"
-        >
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+      <div className="bg-[#0b1220] p-6 rounded-xl relative w-full max-w-md">
+        <button onClick={onClose} className="absolute top-4 right-4">
           <X size={18} />
         </button>
         {children}
