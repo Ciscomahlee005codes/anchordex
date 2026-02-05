@@ -4,6 +4,7 @@ import { useState } from "react";
 import DashboardSidebar from "@/Dashboard/Sidebar/DashboardSidebar";
 import { ChevronDown, ArrowUpDown, X } from "lucide-react";
 import { saveTrade } from "@/lib/trades";
+import type { Trade } from "@/lib/trades";
 import { nanoid } from "nanoid";
 
 const assets = [
@@ -28,28 +29,43 @@ export default function CreateTradePage() {
   const [receiptOpen, setReceiptOpen] = useState(false);
 
   function startTrade() {
-    if (!sendAmount || !sellerEmail || !buyerEmail) return;
-    setConfirmOpen(true);
-  }
+  if (
+    !sendAmount ||
+    !receiveAmount ||
+    Number(sendAmount) <= 0 ||
+    Number(receiveAmount) <= 0 ||
+    !sellerEmail ||
+    !buyerEmail
+  ) return;
 
-  function confirmTrade() {
-    const trade = {
-      id: `trade_${nanoid(8)}`,
-      createdAt: new Date().toISOString(),
-      senderAsset: sendAsset.symbol,
-      receiverAsset: receiveAsset.symbol,
-      role,
-      sellerEmail,
-      buyerEmail,
-      feePayer,
-      status: "active",
-    };
+  setConfirmOpen(true);
+}
 
-    saveTrade(trade); // ✅ CORRECT USAGE
 
-    setConfirmOpen(false);
-    setReceiptOpen(true);
-  }
+function confirmTrade() {
+  const trade: Trade = {
+    id: `trade_${nanoid(8)}`,
+    createdAt: new Date().toISOString(),
+
+    senderAsset: sendAsset.symbol,
+    receiverAsset: receiveAsset.symbol,
+
+    senderAmount: Number(sendAmount),
+    receiverAmount: Number(receiveAmount),
+
+    role,
+    sellerEmail,
+    buyerEmail,
+    feePayer,
+    status: "active",
+  };
+
+  saveTrade(trade);
+
+  setConfirmOpen(false);
+  setReceiptOpen(true);
+}
+
 
   return (
     <div className="min-h-screen bg-[#020617] text-white">

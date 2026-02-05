@@ -2,10 +2,13 @@
 export type Trade = {
   id: string;
   createdAt: string;
+
   senderAsset: string;
   receiverAsset: string;
-  senderAmount: string;
-  receiverAmount: string;
+
+  senderAmount: number;
+  receiverAmount: number;
+
   role: "seller" | "buyer";
   sellerEmail: string;
   buyerEmail: string;
