@@ -63,9 +63,9 @@ export default function DashboardSidebar() {
         <div className="mb-10 flex items-center justify-between">
           <Link href="/dashboard" className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-400 text-black font-bold">
-              A
+              P
             </div>
-            <span className="text-lg font-semibold text-white">AnchorDex</span>
+            <span className="text-lg font-semibold text-white">Paychex</span>
           </Link>
 
           <button
@@ -112,7 +112,7 @@ export default function DashboardSidebar() {
 
         {/* FOOTER */}
         <div className="absolute bottom-6 left-6 right-6 rounded-xl border border-white/10 bg-black/40 p-4 text-xs text-slate-400">
-          <p className="mb-1 font-medium text-white">Secured by AnchorDex</p>
+          <p className="mb-1 font-medium text-white">Secured by Paychex</p>
           <p>All escrows are protected</p>
         </div>
       </aside>

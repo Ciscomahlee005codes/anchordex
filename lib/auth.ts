@@ -2,10 +2,10 @@
 export const getUser = () => {
   if (typeof window === "undefined") return null;
 
-  const user = localStorage.getItem("anchordex_user");
+  const user = localStorage.getItem("paychex_user");
   return user ? JSON.parse(user) : null;
 };
 
 export const logout = () => {
-  localStorage.removeItem("anchordex_user");
+  localStorage.removeItem("paychex_user");
 };

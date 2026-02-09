@@ -11,7 +11,7 @@ export default function Guarantee() {
             Our Guarantee
           </h1>
           <p className="text-white/80 text-lg leading-relaxed">
-            AnchorDex is committed to protecting every transaction with
+            Paychex is committed to protecting every transaction with
             transparency, security, and fairness. Our escrow guarantee ensures
             confidence for both buyers and sellers at every step.
           </p>
@@ -29,7 +29,7 @@ export default function Guarantee() {
             </h2>
             <p className="text-gray-700 leading-relaxed">
               Our escrow system is designed to eliminate uncertainty in crypto
-              exchanges. AnchorDex guarantees that funds are held securely and
+              exchanges. Paychex guarantees that funds are held securely and
               released only when all agreed conditions between parties are met.
             </p>
           </div>
@@ -52,7 +52,7 @@ export default function Guarantee() {
                 Fair Dispute Resolution
               </h3>
               <p className="text-gray-600">
-                If a dispute arises, AnchorDex reviews all transaction details
+                If a dispute arises, Paychex reviews all transaction details
                 and evidence to ensure a fair and unbiased resolution.
               </p>
             </div>
@@ -101,7 +101,7 @@ export default function Guarantee() {
               Built on Trust, Backed by Technology
             </h3>
             <p className="text-gray-700 leading-relaxed">
-              AnchorDex combines secure escrow infrastructure with human
+              Paychex combines secure escrow infrastructure with human
               oversight to guarantee safe, reliable, and dispute-free crypto
               transactions — giving you peace of mind every time you trade.
             </p>

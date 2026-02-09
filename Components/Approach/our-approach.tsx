@@ -8,10 +8,10 @@ export default function OurApproach() {
       <section className="bg-black py-32">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <h1 className="text-teal-400 text-4xl md:text-5xl font-semibold mb-6">
-            AnchorDex Escrow Process
+            Paychex Escrow Process
           </h1>
           <p className="text-white/80 text-lg leading-relaxed">
-            AnchorDex employs a highly automated escrow process to streamline
+            Paychex employs a highly automated escrow process to streamline
             cryptocurrency transactions. For enhanced security, fund releases
             and dispute resolutions are meticulously handled by our expert team.
           </p>
@@ -30,11 +30,11 @@ export default function OurApproach() {
             {[
               "A buyer or seller initiates a secure escrow transaction.",
               "Both parties verify their email and cryptocurrency addresses.",
-              "The buyer transfers cryptocurrencies to AnchorDex's secure escrow address.",
+              "The buyer transfers cryptocurrencies to Paychex's secure escrow address.",
               "The seller delivers the agreed-upon item(s) to the buyer.",
               "An inspection period begins upon the buyer's receipt of the item(s).",
               "Once approved, funds are securely released to the seller.",
-              "In case of disputes, AnchorDex intervenes to ensure fair resolution.",
+              "In case of disputes, Paychex intervenes to ensure fair resolution.",
             ].map((item, index) => (
               <li key={index} className="flex items-start gap-4">
                 <span className="mt-2 w-3 h-3 rounded-full bg-teal-500 flex-shrink-0" />
@@ -50,7 +50,7 @@ export default function OurApproach() {
                 Neutral & Trustless
               </h3>
               <p className="text-gray-600">
-                AnchorDex acts as an impartial third party, ensuring that
+                Paychex acts as an impartial third party, ensuring that
                 neither buyer nor seller can manipulate the transaction.
               </p>
             </div>
@@ -79,7 +79,7 @@ export default function OurApproach() {
           {/* CLOSING NOTE */}
           <div className="text-center">
             <p className="text-gray-700 max-w-3xl mx-auto">
-              With AnchorDex, every transaction is structured to minimize risk,
+              With Paychex, every transaction is structured to minimize risk,
               protect all parties, and ensure confidence throughout the entire
               exchange process.
             </p>

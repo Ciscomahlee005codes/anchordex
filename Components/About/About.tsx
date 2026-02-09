@@ -10,7 +10,7 @@ export default function AboutPage() {
       <section className="max-w-6xl mx-auto px-6 pt-20 pb-16">
         
         <p className="uppercase tracking-widest text-gray-500 text-sm mb-4">
-          About AnchorDex
+          About Paychex
         </p>
 
         <h1 className="text-4xl md:text-5xl font-bold text-teal-500 mb-8">
@@ -19,7 +19,7 @@ export default function AboutPage() {
 
         <div className="space-y-6 text-lg leading-relaxed text-gray-800">
           <p>
-            AnchorDex is a premier cryptocurrency escrow service, recognized by
+             Paychex is a premier cryptocurrency escrow service, recognized by
             leading publications such as Forbes. Our mission is to streamline
             and secure cryptocurrency exchanges, minimizing fraud and enhancing
             trust in online transactions through our advanced escrow platform.
@@ -28,7 +28,7 @@ export default function AboutPage() {
           <p>
             Our escrow process is highly automated, designed to facilitate
             seamless transactions. While we encourage trading parties to resolve
-            disputes independently, AnchorDex provides a fair and systematic
+            disputes independently, Paychex provides a fair and systematic
             dispute resolution mechanism to address any challenges that may arise.
           </p>
 
@@ -55,7 +55,7 @@ export default function AboutPage() {
         </p>
 
         <p className="text-lg leading-relaxed text-gray-800 mt-6">
-          With cryptocurrency gaining mainstream traction, AnchorDex simplifies
+          With cryptocurrency gaining mainstream traction, Paychex simplifies
           the complexities of crypto trading. Our tailored peer-to-peer escrow
           service empowers both novice and experienced traders to navigate the
           crypto market with confidence and ease.

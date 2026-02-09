@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AnchorDex",
+  title: "Paychex - Secure Crypto Escrow Marketplace",
   description: "Secure crypto escrow marketplace",
 };
 

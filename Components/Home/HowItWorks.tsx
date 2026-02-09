@@ -5,13 +5,13 @@ const steps = [
     step: "1.",
     title: "Create Your Account Effortlessly",
     description:
-      "Register with AnchorDex in just a few clicks using your email address to start managing secure transactions.",
+      "Register with Paychexin just a few clicks using your email address to start managing secure transactions.",
   },
   {
     step: "2.",
     title: "Fund Your Wallet Securely",
     description:
-      "Deposit funds into your AnchorDex wallet to initiate your cryptocurrency exchange process.",
+      "Deposit funds into your Paychexwallet to initiate your cryptocurrency exchange process.",
   },
   {
     step: "3.",
@@ -45,7 +45,7 @@ export default function HowItWorks() {
             <div className="w-[280px] md:w-[320px] xl:w-[360px]">
               <Image
                 src="/section-min.webp"
-                alt="AnchorDex Exchange"
+                alt="PaychexExchange"
                 width={800}
                 height={800}
                 className="w-full h-auto drop-shadow-2xl"

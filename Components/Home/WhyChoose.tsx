@@ -4,13 +4,13 @@ const features = [
   {
     title: "Rapid Transactions",
     description:
-      "AnchorDex delivers exceptional transaction speeds, empowering you to capitalize on cryptocurrency market opportunities efficiently.",
+      "Paychex delivers exceptional transaction speeds, empowering you to capitalize on cryptocurrency market opportunities efficiently.",
     icon: "/arrow_icon.jpeg",
   },
   {
     title: "Cost-Effective Rates",
     description:
-      "Enjoy competitive exchange rates with AnchorDex, designed to ensure seamless and cost-efficient transactions for all parties.",
+      "Enjoy competitive exchange rates with Paychex, designed to ensure seamless and cost-efficient transactions for all parties.",
     icon: "/b_coin.jpeg",
   },
   {
@@ -29,7 +29,7 @@ export default function WhyChoose() {
         {/* Section Header */}
         <div className="mb-16 max-w-4xl">
           <p className="text-teal-400 font-medium mb-4">
-            Why Choose AnchorDex
+            Why Choose Paychex?
           </p>
           <h2 className="text-3xl md:text-4xl xl:text-5xl font-semibold leading-tight">
             Tailored Escrow Solutions for Secure Crypto Transactions

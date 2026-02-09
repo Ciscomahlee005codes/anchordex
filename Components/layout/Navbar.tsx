@@ -26,10 +26,10 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
               <div className="w-8 h-8 bg-teal-400 rounded-md flex items-center justify-center">
-                <span className="text-black font-bold">A</span>
+                <span className="text-black font-bold">P</span>
               </div>
               <span className="text-white text-xl font-semibold">
-                AnchorDex
+                Paychex
               </span>
             </Link>
 

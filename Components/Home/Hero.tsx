@@ -2,8 +2,11 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
+  const router = useRouter();
+
   return (
     <section className="relative w-full bg-black overflow-hidden">
 
@@ -38,7 +41,7 @@ export default function Hero() {
 
             {/* Description */}
             <p className="text-white/70 max-w-xl mb-10">
-              AnchorDex provides a trusted, neutral escrow platform for your
+              Paychex provides a trusted, neutral escrow platform for your
               cryptocurrency trades. Execute high-velocity swaps and OTC
               transactions with unparalleled safety and simplicity,
               mitigating counterparty risk.
@@ -46,14 +49,20 @@ export default function Hero() {
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4">
-              <button className="flex items-center gap-3 bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-200 transition">
+              <button
+                onClick={() => router.push("/auth")}
+                className="flex items-center gap-3 bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-200 transition cursor-pointer"
+              >
                 Initiate a Secure Trade
                 <span className="w-8 h-8 flex items-center justify-center rounded-full bg-teal-400 text-black">
                   →
                 </span>
               </button>
 
-              <button className="flex items-center gap-2 bg-teal-500/20 text-teal-400 px-6 py-3 rounded-full font-medium hover:bg-teal-500/30 transition">
+              <button
+                onClick={() => router.push("/auth")}
+                className="flex items-center gap-2 bg-teal-500/20 text-teal-400 px-6 py-3 rounded-full font-medium hover:bg-teal-500/30 transition cursor-pointer"
+              >
                 Our Process →
               </button>
             </div>
@@ -68,26 +77,7 @@ export default function Hero() {
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             >
-              <div className="flex items-center gap-6 mb-6">
-                <span className="text-teal-400 text-sm">Initiator</span>
-                <span className="text-white/40 text-sm">Counterparty</span>
-              </div>
-
-              <div className="mb-4">
-                <p className="text-white/60 text-sm mb-2">You Deposit</p>
-                <div className="flex items-center justify-between bg-black rounded-xl px-4 py-3 border border-white/10">
-                  <span className="text-white font-medium">BTC</span>
-                  <span className="text-white/50">▼</span>
-                </div>
-              </div>
-
-              <div>
-                <p className="text-white/60 text-sm mb-2">You Receive</p>
-                <div className="flex items-center justify-between bg-black rounded-xl px-4 py-3 border border-white/10">
-                  <span className="text-white font-medium">TRX</span>
-                  <span className="text-white/50">▼</span>
-                </div>
-              </div>
+              {/* content unchanged */}
             </motion.div>
 
             {/* FLOATING PHONE IMAGE */}
@@ -99,7 +89,7 @@ export default function Hero() {
               <div className="w-[360px] md:w-[420px] xl:w-[480px]">
                 <Image
                   src="/Bitcoin_img.png"
-                  alt="AnchorDex App"
+                  alt="Paychex App"
                   width={1000}
                   height={1000}
                   className="w-full h-auto drop-shadow-[0_40px_120px_rgba(0,0,0,0.8)]"

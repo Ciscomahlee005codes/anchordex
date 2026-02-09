@@ -24,7 +24,7 @@ export default function AdminSettingsPage() {
         >
           <div className="space-y-4 text-sm">
             <SettingRow label="Name" value="Super Admin" />
-            <SettingRow label="Email" value="admin@anchordex.com" />
+            <SettingRow label="Email" value="admin@paychex.com" />
 
             <button className="mt-2 rounded-lg border border-white/10 px-4 py-2 text-sm hover:bg-white/5">
               Edit Profile

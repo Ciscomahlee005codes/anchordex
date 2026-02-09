@@ -10,9 +10,9 @@ export default function Footer() {
         {/* Brand Section */}
         <div>
           <h2 className="text-2xl font-bold text-teal-400 mb-4">
-            AnchorDex
+            Paychex
           </h2>
-          <p className="text-sm mb-6">© anchordex.com 2026</p>
+          <p className="text-sm mb-6">© paychex.com 2026</p>
 
           {/* Social Icons */}
           <div className="flex gap-4 mb-6">

@@ -95,7 +95,7 @@ export default function AuthPage() {
           <div className="absolute h-[420px] w-[420px] rounded-full bg-teal-500/20 blur-3xl" />
           <Image
             src="/security-icon.png"
-            alt="AnchorDex Security"
+            alt="Paychex Security"
             width={340}
             height={340}
             className="relative drop-shadow-[0_40px_80px_rgba(45,212,191,0.35)]"

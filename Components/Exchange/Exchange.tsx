@@ -11,7 +11,7 @@ export default function Exchange() {
             Secure Crypto Exchange with Escrow Protection
           </h1>
           <p className="text-white/80 text-lg max-w-3xl mx-auto leading-relaxed">
-            Trade cryptocurrencies confidently using AnchorDex’s escrow-powered
+            Trade cryptocurrencies confidently using Paychex’s escrow-powered
             exchange. Funds are securely locked until all conditions are met —
             eliminating counterparty risk.
           </p>
@@ -73,7 +73,7 @@ export default function Exchange() {
           {/* RIGHT - EXPLANATION */}
           <div>
             <h3 className="text-2xl font-semibold mb-6">
-              Why Use AnchorDex Exchange?
+              Why Use Paychex Exchange?
             </h3>
 
             <ul className="space-y-6">
