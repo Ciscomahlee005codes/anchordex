@@ -3,58 +3,38 @@ import { HiOutlineClock } from "react-icons/hi";
 import { BsArrowRepeat } from "react-icons/bs";
 
 const metrics = [
-  {
-    icon: <FaChartBar className="text-teal-400 text-3xl" />,
-    value: "$16M+",
-    label: "24-Hour Trading Volume",
-  },
-  {
-    icon: <BsArrowRepeat className="text-teal-400 text-3xl" />,
-    value: "2,200+",
-    label: "Weekly Transactions",
-  },
-  {
-    icon: <FaGlobe className="text-teal-400 text-3xl" />,
-    value: "100+",
-    label: "Global Reach (Countries)",
-  },
-  {
-    icon: <HiOutlineClock className="text-teal-400 text-3xl" />,
-    value: "~10 Minutes",
-    label: "Average Transaction Time",
-  },
+  { icon: FaChartBar, value: "$16M+", label: "Traded in the last 24 hours" },
+  { icon: BsArrowRepeat, value: "2,200+", label: "Transactions every week" },
+  { icon: FaGlobe, value: "100+", label: "Countries reached" },
+  { icon: HiOutlineClock, value: "~10 min", label: "Average time to settle" },
 ];
 
 export default function PerformanceMetrics() {
   return (
-    <section className="bg-black py-20">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Title */}
-        <h2 className="text-white text-4xl font-semibold mb-12">
-          Performance Metrics
+    <section className="bg-[#05080a] py-24">
+      <div className="mx-auto max-w-7xl px-6">
+        <h2 className="mb-12 text-3xl font-semibold tracking-tight text-white md:text-4xl">
+          Performance at a glance
         </h2>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {metrics.map((item, index) => (
+        <dl className="grid overflow-hidden rounded-2xl border border-white/10 sm:grid-cols-2 lg:grid-cols-4">
+          {metrics.map(({ icon: Icon, value, label }, i) => (
             <div
-              key={index}
-              className="bg-gradient-to-br from-[#111827] to-[#1f2937]
-              rounded-2xl p-8 shadow-lg border border-white/5
-              hover:scale-[1.03] transition-transform duration-300"
+              key={label}
+              className={`relative bg-[#080c0f] p-8 transition-colors hover:bg-[#0b1115] ${
+                i > 0 ? "border-t border-white/10 sm:border-t-0 sm:border-l" : ""
+              } ${i === 2 ? "sm:max-lg:border-t sm:max-lg:border-l-0" : ""} ${
+                i === 3 ? "sm:max-lg:border-t" : ""
+              }`}
             >
-              <div className="mb-6">{item.icon}</div>
-
-              <h3 className="text-white text-3xl font-bold mb-2">
-                {item.value}
-              </h3>
-
-              <p className="text-gray-400 text-sm leading-relaxed">
-                {item.label}
-              </p>
+              <Icon className="mb-10 text-2xl text-teal-400" />
+              <dd className="text-4xl font-semibold tabular-nums tracking-tight text-white">
+                {value}
+              </dd>
+              <dt className="mt-2 text-sm text-white/50">{label}</dt>
             </div>
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );

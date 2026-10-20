@@ -2,70 +2,54 @@ import Image from "next/image";
 
 const features = [
   {
-    title: "Rapid Transactions",
+    title: "Rapid transactions",
     description:
-      "Paychex delivers exceptional transaction speeds, empowering you to capitalize on cryptocurrency market opportunities efficiently.",
+      "Trades settle in minutes, so you can act on market moves instead of waiting on a counterparty.",
     icon: "/arrow_icon.jpeg",
   },
   {
-    title: "Cost-Effective Rates",
+    title: "Cost-effective rates",
     description:
-      "Enjoy competitive exchange rates with Paychex, designed to ensure seamless and cost-efficient transactions for all parties.",
+      "Competitive exchange rates and clear fees, so both sides know exactly what they pay before they commit.",
     icon: "/b_coin.jpeg",
   },
   {
-    title: "Fortified Security",
+    title: "Fortified security",
     description:
-      "Our multi-signature protocols and automated trade systems ensure secure, dispute-free exchanges for maximum peace of mind.",
+      "Multi-signature protocols and automated trade checks keep every exchange safe and dispute-free.",
     icon: "/security_icon.jpeg",
   },
 ];
 
 export default function WhyChoose() {
   return (
-    <section className="relative w-full bg-black py-28">
-      <div className="max-w-7xl mx-auto px-6">
-
-        {/* Section Header */}
-        <div className="mb-16 max-w-4xl">
-          <p className="text-teal-400 font-medium mb-4">
-            Why Choose Paychex?
-          </p>
-          <h2 className="text-3xl md:text-4xl xl:text-5xl font-semibold leading-tight">
-            Tailored Escrow Solutions for Secure Crypto Transactions
+    <section className="relative w-full bg-[#05080a] py-28">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="mb-16 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+          <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl xl:text-5xl">
+            Escrow built for crypto trades that can’t go wrong
           </h2>
+          <p className="max-w-sm text-white/55">
+            Fast, fair and protected from the first deposit to the final release.
+          </p>
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {features.map((feature) => (
-            <div
-              key={feature.title}
-              className="bg-gradient-to-b from-[#121722] to-[#0b0f14]
-                         border border-white/10 rounded-2xl p-8
-                         hover:-translate-y-2 hover:border-teal-400/40
-                         transition-all duration-300"
+        <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-3">
+          {features.map((f) => (
+            <article
+              key={f.title}
+              className="group relative bg-[#080c0f] p-8 transition-colors duration-300 hover:bg-[#0b1115] md:p-10"
             >
-              {/* Icon */}
-              <div className="mb-6">
-                <div className="w-14 h-14 rounded-xl bg-black border border-white/10 flex items-center justify-center">
-                  <Image
-                    src={feature.icon}
-                    alt={feature.title}
-                    width={58}
-                    height={58}
-                  />
-                </div>
+              <div className="mb-8 grid h-14 w-14 place-items-center rounded-xl border border-white/10 bg-black transition-colors group-hover:border-teal-400/50">
+                <Image src={f.icon} alt="" width={40} height={40} className="rounded-md" />
               </div>
-
-              {/* Text */}
-              <h3 className="text-xl font-semibold mb-4 text-amber-100">
-                {feature.title}
-              </h3>
-              <p className="text-white/70 leading-relaxed">
-                {feature.description}
-              </p>
-            </div>
+              <h3 className="mb-3 text-xl font-semibold text-white">{f.title}</h3>
+              <p className="leading-relaxed text-white/60">{f.description}</p>
+              <span
+                aria-hidden
+                className="absolute inset-x-0 bottom-0 h-px scale-x-0 bg-gradient-to-r from-transparent via-teal-400 to-transparent transition-transform duration-500 group-hover:scale-x-100"
+              />
+            </article>
           ))}
         </div>
       </div>

@@ -14,31 +14,31 @@ import Navbar from "@/Components/layout/Navbar";
 export default function Home() {
   return (
     <>
-    <Navbar />
-    <Hero />
-    <WhyChoose />
-    <HowItWorks />
-    <PerformanceMetrics />
-    <CryptoMarketTable />
-    <main className="bg-gray-100 min-h-screen p-4 sm:p-6 md:p-10 overflow-x-hidden">
-  <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 lg:gap-8">
+      <Navbar />
+      <main>
+        <Hero />
+        <WhyChoose />
+        <HowItWorks />
+        <PerformanceMetrics />
+        <CryptoMarketTable />
 
-    {/* LEFT & CENTER: Portfolio + Following Table */}
-    <div className="flex-1 flex flex-col gap-6 w-full min-w-0">
-      <PortfolioCard />
-      <FollowingTable />
-    </div>
+        {/* Product preview */}
+        <section className="overflow-x-hidden bg-[#f6f8f8] px-4 py-20 sm:px-6 md:py-28">
+          <div className="mx-auto flex max-w-7xl flex-col gap-8 lg:flex-row lg:items-start">
+            <div className="flex min-w-0 flex-1 flex-col gap-6">
+              <PortfolioCard />
+              <FollowingTable />
+            </div>
+            <div className="flex min-w-0 justify-center lg:justify-end">
+              <MobileTradeCard />
+            </div>
+          </div>
+        </section>
 
-    {/* RIGHT: Mobile Trade Card */}
-    <div className="flex justify-center lg:justify-end w-full lg:w-auto min-w-0">
-      <MobileTradeCard />
-    </div>
-  </div>
-</main>
-
-    <FAQ />
-    <TrustedPartners />
-    <Footer />
+        <FAQ />
+        <TrustedPartners />
+      </main>
+      <Footer />
     </>
   );
 }
