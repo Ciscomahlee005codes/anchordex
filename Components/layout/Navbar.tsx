@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
+import PaychexLogo from "@/Components/PaychexLogo";
 
 const navLinks = [
   { name: "About", href: "/about" },
@@ -55,9 +56,7 @@ export default function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-teal-400 text-sm font-bold text-black">
-            P
-          </span>
+          <PaychexLogo className="h-9 w-9" />
           <span className="text-lg font-semibold tracking-tight">
             Paychex
           </span>

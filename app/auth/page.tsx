@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiArrowLeft, FiCheckCircle, FiEye, FiEyeOff, FiAlertCircle, FiLock } from "react-icons/fi";
 import { registerUser, getUsers, setCurrentUser } from "@/lib/storage";
+import PaychexLogo from "@/Components/PaychexLogo";
 
 type Mode = "login" | "signup";
 type ToastType = "success" | "error";
@@ -138,9 +139,7 @@ export default function AuthPage() {
 
           <div className="relative">
             <Link href="/" className="inline-flex items-center gap-2.5">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-teal-400 text-sm font-bold text-black">
-                P
-              </span>
+              <PaychexLogo className="h-9 w-9" />
               <span className="text-lg font-semibold tracking-tight">Paychex</span>
             </Link>
 

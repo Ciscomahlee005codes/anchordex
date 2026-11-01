@@ -15,10 +15,6 @@ const partners = [
     name: "Trezor",
     icon: "/trezor.png",
   },
-  {
-    name: "Wallet Connect",
-    icon: "/wallet_connect.png",
-  },
 ];
 
 export default function TrustedPartners() {
@@ -29,7 +25,7 @@ export default function TrustedPartners() {
           Our Trusted Partners
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-3">
           {partners.map((partner, index) => (
             <div
               key={index}

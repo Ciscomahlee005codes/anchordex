@@ -1,17 +1,22 @@
 "use client";
 
-import { Instagram, Twitter, Youtube, ChevronDown } from "lucide-react";
+import { Instagram, Twitter, Youtube } from "lucide-react";
+import PaychexLogo from "@/Components/PaychexLogo";
+import { languages, useLanguage } from "@/lib/i18n";
 
 export default function Footer() {
+  const { language, setLanguage } = useLanguage();
+
   return (
     <footer className="bg-black text-gray-400 px-6 pt-16 pb-10 border-t border-white/10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
         
         {/* Brand Section */}
         <div>
-          <h2 className="text-2xl font-bold text-teal-400 mb-4">
-            Paychex
-          </h2>
+          <div className="mb-4 flex items-center gap-2.5">
+            <PaychexLogo className="h-9 w-9" />
+            <h2 className="text-2xl font-bold text-white">Paychex</h2>
+          </div>
           <p className="text-sm mb-6">© paychex.com 2026</p>
 
           {/* Social Icons */}
@@ -28,10 +33,31 @@ export default function Footer() {
           </div>
 
           {/* Language Selector */}
-          <div className="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg px-4 py-2 w-40 cursor-pointer hover:bg-white/10 transition">
-            <span className="text-white text-sm">English</span>
-            <ChevronDown size={16} />
-          </div>
+          <label className="sr-only" htmlFor="footer-language">
+            Language
+          </label>
+          <select
+            id="footer-language"
+            value={language}
+            onChange={(event) => {
+              const selected = languages.find(
+                (option) => option.code === event.target.value,
+              );
+              if (selected) setLanguage(selected.code);
+            }}
+            className="w-40 cursor-pointer rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10"
+            aria-label="Select language"
+          >
+            {languages.map((option) => (
+              <option
+                key={option.code}
+                value={option.code}
+                className="bg-black text-white"
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Company */}

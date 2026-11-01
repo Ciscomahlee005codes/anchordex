@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import PaychexLogo from "@/Components/PaychexLogo";
 import {
   LayoutDashboard,
   ShieldCheck,
@@ -62,9 +63,7 @@ export default function DashboardSidebar() {
         {/* HEADER */}
         <div className="mb-10 flex items-center justify-between">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-400 text-black font-bold">
-              P
-            </div>
+            <PaychexLogo />
             <span className="text-lg font-semibold text-white">Paychex</span>
           </Link>
 

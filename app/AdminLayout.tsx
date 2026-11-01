@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getAdmin } from "@/lib/adminAuth";
+import PaychexLogo from "@/Components/PaychexLogo";
 
 import {
   LayoutDashboard,
@@ -76,9 +77,7 @@ export default function AdminLayout({
         {/* HEADER */}
         <div className="mb-10 flex items-center justify-between">
           <Link href="/admin/dashboard" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-400 text-black font-bold">
-              P
-            </div>
+            <PaychexLogo />
             <span className="text-lg font-semibold text-white">
                Paychex
             </span>
